@@ -1,4 +1,4 @@
-Descripción del Proyecto<br>
+<b>Descripción del Proyecto</b><br>
 
 Se requiere un aplicativo web para que un administrador pueda gestionar los 
 ingresos y egresos de su empresa. El sistema debería permitir visualizar los 
@@ -16,7 +16,7 @@ supremamente delicadas, el sistema debería permitir llevar una trazabilidad
 de quién registró cada transacción, por lo cual el sistema debe contar con un 
 sistema de autenticación.<br>
 
-Integrantes:<br>
+<b>Integrantes:</b><br>
 
 > Alex Fabian Medina Prens <br>
 > Jhon David Daza Garcia<br>
