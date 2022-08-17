@@ -1,6 +1,7 @@
-db   d8b   db  .d8b.  d8888b. d8888b. d888888b  .d88b.  d8888b. .d8888.
-88   I8I   88 d8' `8b 88  `8D 88  `8D   `88'   .8P  Y8. 88  `8D 88'  YP
-88   I8I   88 88ooo88 88oobY' 88oobY'    88    88    88 88oobY' `8bo.
-Y8   I8I   88 88~~~88 88`8b   88`8b      88    88    88 88`8b     `Y8b.
-`8b d8'8b d8' 88   88 88 `88. 88 `88.   .88.   `8b  d8' 88 `88. db   8D
- `8b8' `8d8'  YP   YP 88   YD 88   YD Y888888P  `Y88P'  88   YD `8888Y'
+Integrantes:
+
+> Alex Fabian Medina Prens
+> Jhon David Daza Garcia
+> Johan Andrey Salazar Piedrahita
+> Juan felipe gonzalez montilla
+> Sergio Peñaloza Rojas
