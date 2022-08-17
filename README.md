@@ -1,4 +1,4 @@
-Integrantes:
+Integrantes:<br>
 
 > Alex Fabian Medina Prens
 > Jhon David Daza Garcia
