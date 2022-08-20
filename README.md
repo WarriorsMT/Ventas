@@ -16,7 +16,7 @@ supremamente delicadas, el sistema debería permitir llevar una trazabilidad
 de quién registró cada transacción, por lo cual el sistema debe contar con un 
 sistema de autenticación.<br>
 
-<b>Equipo Warriors:</b><br>
+<b>Equipo Warriors - MisionTIC 2022:</b><br>
 
 > Alex Fabian Medina Prens <br>
 > Jhon David Daza Garcia<br>
