@@ -16,8 +16,24 @@ public class EmpresaService {
         return this.repositorio.findAll();
     }
 
-    public EmpresaEntity buscar(long id) {
+    public EmpresaEntity buscarPorId(long id) {
         return this.repositorio.findById(id).get();
+    }
+
+    public EmpresaEntity buscarPorNombre(String nombre) {
+        return this.repositorio.findByNombre(nombre);
+    }
+
+    public EmpresaEntity buscarPorNit(String nit) {
+        return this.repositorio.findByNit(nit);
+    }
+
+    public EmpresaEntity findByNotIdAndNombre(Long id, String nombre) {
+        return this.repositorio.findByNotIdAndNombre(id, nombre);
+    }
+
+    public EmpresaEntity findByNotIdAndNit(Long id, String nit) {
+        return this.repositorio.findByNotIdAndNit(id, nit);
     }
 
     public EmpresaEntity agregar(EmpresaEntity empresa) {

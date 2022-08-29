@@ -2,6 +2,8 @@ package com.ciclo3.ventas.controllers;
 
 import com.ciclo3.ventas.entities.EmpresaEntity;
 import com.ciclo3.ventas.services.EmpresaService;
+import org.json.simple.JSONObject;
+import org.json.simple.JSONValue;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,27 +16,119 @@ public class EmpresaController {
     EmpresaService servicio;
 
     @RequestMapping(method = RequestMethod.GET)
-    public List<EmpresaEntity> listar() {
-        return this.servicio.listar();
+    public JSONObject listar() {
+        return (JSONObject) JSONValue.parse(
+                "{ " +
+                        "\"ok\" : " + true + ", " +
+                        "\"msg\" : \"Listado\", " +
+                        "\"result\" : " + (List<EmpresaEntity>) this.servicio.listar() +
+                        "}");
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public EmpresaEntity buscar(@PathVariable long id) {
-        return this.servicio.buscar(id);
+    public JSONObject buscarPorId(@PathVariable long id) {
+        try {
+            return (JSONObject) JSONValue.parse(
+                    "{ " +
+                            "\"ok\" : " + true + ", " +
+                            "\"msg\" : \"Buscado\", " +
+                            "\"result\" : " + this.servicio.buscarPorId(id) +
+                            "}");
+        } catch (Exception e) {
+            return (JSONObject) JSONValue.parse(
+                    "{ " +
+                            "\"ok\" : " + false + ", " +
+                            "\"msg\" : \"No existe\", " +
+                            "}");
+        }
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public EmpresaEntity agregar(@RequestBody EmpresaEntity empresa) {
-        return this.servicio.agregar(empresa);
+    public JSONObject agregar(@RequestBody EmpresaEntity empresa) {
+        if (this.servicio.buscarPorNombre(empresa.getNombre()) != null) {
+            return (JSONObject) JSONValue.parse(
+                    "{ " +
+                            "\"ok\" : " + false + ", " +
+                            "\"msg\" : \"Ya existe el nombre\", " +
+                            "}");
+        } else if (this.servicio.buscarPorNit(empresa.getNit()) != null) {
+            return (JSONObject) JSONValue.parse(
+                    "{ " +
+                            "\"ok\" : " + false + ", " +
+                            "\"msg\" : \"Ya existe el nit\", " +
+                            "}");
+        }
+        try {
+            return (JSONObject) JSONValue.parse(
+                    "{ " +
+                            "\"ok\" : " + true + ", " +
+                            "\"msg\" : \"Agregado\", " +
+                            "\"result\" : " + this.servicio.agregar(empresa) +
+                            "}");
+        } catch (Exception e) {
+            return (JSONObject) JSONValue.parse(
+                    "{ " +
+                            "\"ok\" : " + false + ", " +
+                            "\"msg\" : \"Revisar los datos\", " +
+                            "}");
+        }
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-    public void borrar(@PathVariable long id) {
-        this.servicio.borrar(id);
+    public JSONObject borrar(@PathVariable long id) {
+        try {
+            this.servicio.borrar(id);
+            return (JSONObject) JSONValue.parse(
+                    "{ " +
+                            "\"ok\" : " + true + ", " +
+                            "\"msg\" : \"Eliminado\" " +
+                            "}");
+        } catch (Exception e) {
+            return (JSONObject) JSONValue.parse(
+                    "{ " +
+                            "\"ok\" : " + false + ", " +
+                            "\"msg\" : \"No existe\", " +
+                            "}");
+        }
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PATCH)
-    public EmpresaEntity editar(@RequestBody EmpresaEntity nuevaEmpresa, @PathVariable long id) {
-        return this.servicio.editar(nuevaEmpresa, id);
+    public JSONObject editar(@RequestBody EmpresaEntity nuevaEmpresa, @PathVariable long id) {
+        try {
+            this.servicio.buscarPorId(id);
+            if (this.servicio.findByNotIdAndNombre(id, nuevaEmpresa.getNombre()) != null) {
+                return (JSONObject) JSONValue.parse(
+                        "{ " +
+                                "\"ok\" : " + false + ", " +
+                                "\"msg\" : \"Ya existe el nombre\", " +
+                                "}");
+            } else if (this.servicio.findByNotIdAndNit(id, nuevaEmpresa.getNit()) != null) {
+                return (JSONObject) JSONValue.parse(
+                        "{ " +
+                                "\"ok\" : " + false + ", " +
+                                "\"msg\" : \"Ya existe el nit\", " +
+                                "}");
+            }
+            try {
+                return (JSONObject) JSONValue.parse(
+                        "{ " +
+                                "\"ok\" : " + true + ", " +
+                                "\"msg\" : \"Actualizado\", " +
+                                "\"result\" : " + this.servicio.editar(nuevaEmpresa, id) +
+                                "}");
+            } catch (Exception e) {
+                return (JSONObject) JSONValue.parse(
+                        "{ " +
+                                "\"ok\" : " + false + ", " +
+                                "\"msg\" : \"Revisar los datos\", " +
+                                "}");
+            }
+        } catch (Exception e) {
+            return (JSONObject) JSONValue.parse(
+                    "{ " +
+                            "\"ok\" : " + false + ", " +
+                            "\"msg\" : \"No existe\", " +
+                            "}");
+        }
     }
 }

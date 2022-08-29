@@ -72,4 +72,15 @@ public class EmpresaEntity {
     public void setNit(String nit) {
         this.nit = nit;
     }
+
+    @Override
+    public String toString() {
+        return "{" +
+                "\"id\" : \"" + id + "\", " +
+                "\"nombre\" : \"" + nombre + "\", " +
+                "\"direccion\" : \"" + direccion + "\", " +
+                "\"telefono\" : \"" + telefono + "\", " +
+                "\"nit\" : \"" + nit + "\"" +
+                '}';
+    }
 }
