@@ -10,7 +10,11 @@ public interface EmpresaRepository extends JpaRepository<EmpresaEntity, Long> {
     EmpresaEntity findByNombre(String nombre);
     EmpresaEntity findByNit(String nit);
     @Query(value = "SELECT e.* FROM empresa e WHERE e.id <> ?1 and e.nombre = ?2", nativeQuery = true)
-    EmpresaEntity findByNotIdAndNombre(Long id, String nombre);
+    EmpresaEntity findByNombreEIdNoIgual(Long id, String nombre);
     @Query(value = "SELECT e.* FROM empresa e WHERE e.id <> ?1 and e.nit = ?2", nativeQuery = true)
-    EmpresaEntity findByNotIdAndNit(Long id, String nit);
+    EmpresaEntity findByNitEIdNoIgual(Long id, String nit);
+    @Query(value = "SELECT ea.* " +
+            "FROM empresa ea WHERE ea.id = ?1 and ea.id in " +
+            "(SELECT id_empresa FROM empleado)", nativeQuery = true)
+    EmpresaEntity findByIdEnEmpleado(Long id);
 }

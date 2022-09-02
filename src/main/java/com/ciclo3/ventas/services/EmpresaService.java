@@ -28,14 +28,17 @@ public class EmpresaService {
         return this.repositorio.findByNit(nit);
     }
 
-    public EmpresaEntity findByNotIdAndNombre(Long id, String nombre) {
-        return this.repositorio.findByNotIdAndNombre(id, nombre);
+    public EmpresaEntity findByNombreEIdNoIgual(Long id, String nombre) {
+        return this.repositorio.findByNombreEIdNoIgual(id, nombre);
     }
 
-    public EmpresaEntity findByNotIdAndNit(Long id, String nit) {
-        return this.repositorio.findByNotIdAndNit(id, nit);
+    public EmpresaEntity findByNitEIdNoIgual(Long id, String nit) {
+        return this.repositorio.findByNitEIdNoIgual(id, nit);
     }
 
+    public EmpresaEntity findByIdEnEmpleado(Long id) {
+        return this.repositorio.findByIdEnEmpleado(id);
+    }
     public EmpresaEntity agregar(EmpresaEntity empresa) {
         return repositorio.save(empresa);
     }
@@ -46,12 +49,12 @@ public class EmpresaService {
 
     public EmpresaEntity editar(EmpresaEntity nuevoEmpresa, long id) {
         return  repositorio.findById(id)
-                .map(empleado -> {
-                    empleado.setNombre(nuevoEmpresa.getNombre());
-                    empleado.setDireccion(nuevoEmpresa.getDireccion());
-                    empleado.setTelefono(nuevoEmpresa.getTelefono());
-                    empleado.setNit(nuevoEmpresa.getNit());
-                    return repositorio.save(empleado);
+                .map(empresa -> {
+                    empresa.setNombre(nuevoEmpresa.getNombre());
+                    empresa.setDireccion(nuevoEmpresa.getDireccion());
+                    empresa.setTelefono(nuevoEmpresa.getTelefono());
+                    empresa.setNit(nuevoEmpresa.getNit());
+                    return repositorio.save(empresa);
                 }).get();
     }
 }

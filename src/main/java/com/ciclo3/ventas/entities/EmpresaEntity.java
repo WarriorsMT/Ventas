@@ -1,6 +1,7 @@
 package com.ciclo3.ventas.entities;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "empresa")
@@ -21,6 +22,9 @@ public class EmpresaEntity {
 
     @Column(name = "nit", length = 100, unique = true, nullable = false)
     private String nit;
+
+    @OneToMany(mappedBy = "empresa")
+    private List<EmpleadoEntity> usuarios;
 
     public EmpresaEntity() {
     }
@@ -73,10 +77,17 @@ public class EmpresaEntity {
         this.nit = nit;
     }
 
+    public List<EmpleadoEntity> getUsuarios() {
+        return usuarios;
+    }
+
+    public void setUsuarios(List<EmpleadoEntity> usuarios) {
+        this.usuarios = usuarios;
+    }
     @Override
     public String toString() {
         return "{" +
-                "\"id\" : \"" + id + "\", " +
+                "\"id\" : " + id + ", " +
                 "\"nombre\" : \"" + nombre + "\", " +
                 "\"direccion\" : \"" + direccion + "\", " +
                 "\"telefono\" : \"" + telefono + "\", " +
