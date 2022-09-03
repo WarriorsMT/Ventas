@@ -39,6 +39,7 @@ public class EmpresaService {
     public EmpresaEntity findByIdEnEmpleado(Long id) {
         return this.repositorio.findByIdEnEmpleado(id);
     }
+
     public EmpresaEntity agregar(EmpresaEntity empresa) {
         return repositorio.save(empresa);
     }

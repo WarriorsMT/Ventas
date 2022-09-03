@@ -1,11 +1,7 @@
 package com.ciclo3.ventas.entities;
 
 import javax.persistence.*;
-
-enum Rol {
-    ADMINISTRADOR,
-    OPERATIVO;
-}
+import java.util.List;
 
 @Entity
 @Table(name = "empleado")
@@ -23,7 +19,7 @@ public class EmpleadoEntity {
 
     @JoinColumn(name = "id_empresa", nullable = false,
             foreignKey = @ForeignKey(
-                    foreignKeyDefinition = "FOREIGN KEY (id_empresa) REFERENCES empresa " +
+                    foreignKeyDefinition = "FOREIGN KEY (id_empresa) REFERENCES empresa(id) " +
                             "ON UPDATE CASCADE " +
                             "ON DELETE RESTRICT"
             )
@@ -35,6 +31,9 @@ public class EmpleadoEntity {
     @Enumerated(value = EnumType.STRING)
     private Rol rol;
 
+    @OneToMany(mappedBy = "usuario")
+    private List<MovimientoDineroEntity> transacciones;
+
     public EmpleadoEntity() {
     }
 
@@ -43,6 +42,14 @@ public class EmpleadoEntity {
         this.correo = correo;
         this.empresa = empresa;
         this.rol = rol;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getNombre() {
@@ -75,6 +82,14 @@ public class EmpleadoEntity {
 
     public void setRol(Rol rol) {
         this.rol = rol;
+    }
+
+    public List<MovimientoDineroEntity> getTransacciones() {
+        return transacciones;
+    }
+
+    public void setTransacciones(List<MovimientoDineroEntity> transacciones) {
+        this.transacciones = transacciones;
     }
 
     @Override

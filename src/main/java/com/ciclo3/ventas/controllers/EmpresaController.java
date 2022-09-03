@@ -38,7 +38,7 @@ public class EmpresaController {
             return (JSONObject) JSONValue.parse(
                     "{ " +
                             "\"ok\" : " + false + ", " +
-                            "\"msg\" : \"No existe\", " +
+                            "\"msg\" : \"No existe la empresa\", " +
                             "}");
         }
     }
@@ -69,7 +69,7 @@ public class EmpresaController {
             return (JSONObject) JSONValue.parse(
                     "{ " +
                             "\"ok\" : " + false + ", " +
-                            "\"msg\" : \"Revisar los datos  \", " +
+                            "\"msg\" : \"Revisar los datos\", " +
                             "}");
         }
     }
@@ -80,9 +80,10 @@ public class EmpresaController {
             return (JSONObject) JSONValue.parse(
                     "{ " +
                             "\"ok\" : " + false + ", " +
-                            "\"msg\" : \"TIene empleados y no se puede eliminar\", " +
+                            "\"msg\" : \"Tiene empleados y no se puede eliminar\", " +
                             "}");
         }
+
         try {
             this.servicio.borrar(id);
             return (JSONObject) JSONValue.parse(
@@ -94,7 +95,7 @@ public class EmpresaController {
             return (JSONObject) JSONValue.parse(
                     "{ " +
                             "\"ok\" : " + false + ", " +
-                            "\"msg\" : \"No existe\", " +
+                            "\"msg\" : \"No existe la empresa\", " +
                             "}");
         }
     }
@@ -134,7 +135,7 @@ public class EmpresaController {
             return (JSONObject) JSONValue.parse(
                     "{ " +
                             "\"ok\" : " + false + ", " +
-                            "\"msg\" : \"No existe\", " +
+                            "\"msg\" : \"No existe la empresa\", " +
                             "}");
         }
     }
