@@ -26,6 +26,9 @@ public class EmpresaEntity {
     @OneToMany(mappedBy = "empresa")
     private List<EmpleadoEntity> usuarios;
 
+    @OneToMany(mappedBy = "empresa")
+    private List<MovimientoDineroEntity> transacciones;
+
     public EmpresaEntity() {
     }
 
@@ -84,6 +87,15 @@ public class EmpresaEntity {
     public void setUsuarios(List<EmpleadoEntity> usuarios) {
         this.usuarios = usuarios;
     }
+
+    public List<MovimientoDineroEntity> getTransacciones() {
+        return transacciones;
+    }
+
+    public void setTransacciones(List<MovimientoDineroEntity> transacciones) {
+        this.transacciones = transacciones;
+    }
+
     @Override
     public String toString() {
         return "{" +

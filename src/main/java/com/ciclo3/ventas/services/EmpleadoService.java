@@ -29,6 +29,14 @@ public class EmpleadoService {
         return this.repositorio.findByCorreoEIdNoIgual(id, correo);
     }
 
+    public List<EmpleadoEntity> buscarPorEmpresa(Long id_empresa) {
+        return this.repositorio.findByEmpresa(id_empresa);
+    }
+
+    public EmpleadoEntity findByIdEnMovimiento(Long id) {
+        return this.repositorio.findByIdEnMovimiento(id);
+    }
+
     public EmpleadoEntity agregar(EmpleadoEntity empleado) {
         return repositorio.save(empleado);
     }
