@@ -12,10 +12,6 @@ public class MovimientoDineroService {
     @Autowired
     MovimientoDineroRepository repositorio;
 
-    public List<MovimientoDineroEntity> listar() {
-        return this.repositorio.findAll();
-    }
-
     public List<MovimientoDineroEntity> buscarPorEmpresa(long id_empresa) {
         return this.repositorio.findByEmpresa(id_empresa);
     }
