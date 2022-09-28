@@ -18,8 +18,8 @@ import java.util.stream.IntStream;
 
 @Service
 public class MovimientoDineroServiceView {
-    private String urlBase = "http://localhost:8080//enterprises";
-
+    //private  String urlBase = "http://localhost:8080/enterprises";
+    private String urlBase = "https://warriorsmisiontic.herokuapp.com/enterprises";
     private List<MovimientoDineroEntity> movimientos;
 
     private HttpHeaders obtenerHeader(EmpleadoEntity usuario) {
