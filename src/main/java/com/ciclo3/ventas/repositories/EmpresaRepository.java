@@ -1,12 +1,16 @@
 package com.ciclo3.ventas.repositories;
 
+import com.ciclo3.ventas.entities.EmpleadoEntity;
 import com.ciclo3.ventas.entities.EmpresaEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface EmpresaRepository extends JpaRepository<EmpresaEntity, Long> {
+    List<EmpresaEntity> findAllByOrderByNombreAsc();
     EmpresaEntity findByNombre(String nombre);
     EmpresaEntity findByNit(String nit);
     @Query(value = "SELECT e.* FROM empresa e WHERE e.id <> ?1 and e.nombre = ?2", nativeQuery = true)
