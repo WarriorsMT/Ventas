@@ -20,13 +20,7 @@ public class EmpleadoEntity {
     @Column(name = "correo", length = 100, unique = true, nullable = false)
     private String correo;
 
-    @JoinColumn(name = "id_empresa", nullable = false,
-            foreignKey = @ForeignKey(
-                    foreignKeyDefinition = "FOREIGN KEY (id_empresa) REFERENCES empresa(id) " +
-                            "ON UPDATE CASCADE " +
-                            "ON DELETE RESTRICT"
-            )
-    )
+    @JoinColumn(name = "id_empresa", nullable = false)
     @ManyToOne(fetch = FetchType.EAGER)
     private EmpresaEntity empresa;
 
