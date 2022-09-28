@@ -19,7 +19,7 @@ import java.util.stream.IntStream;
 
 @Service
 public class EmpresaServiceView {
-//    private String urlBase = "http://localhost:8080/enterprises";
+    //    private String urlBase = "http://localhost:8080/enterprises";
     private String urlBase = "https://warriorsmisiontic.herokuapp.com/enterprises";
 
     private List<EmpresaEntity> empresas;

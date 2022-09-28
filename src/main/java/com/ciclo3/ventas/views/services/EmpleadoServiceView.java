@@ -20,7 +20,7 @@ import java.util.stream.IntStream;
 
 @Service
 public class EmpleadoServiceView {
-//    private String urlBase = "http://localhost:8080/users";
+    //    private String urlBase = "http://localhost:8080/users";
     private String urlBase = "https://warriorsmisiontic.herokuapp.com/users";
     private List<EmpleadoEntity> empleados;
 
@@ -32,7 +32,7 @@ public class EmpleadoServiceView {
         return usuario;
     }
 
-    public List<EmpleadoEntity> getLista(){
+    public List<EmpleadoEntity> getLista() {
         return empleados;
     }
 
@@ -50,9 +50,9 @@ public class EmpleadoServiceView {
         HttpEntity<String> request = new HttpEntity<String>(headers);
 
         ResponseEntity<EmpleadoEntity[]> response;
-        if(usuario.getRol().toString().equals("SUPERADMINISTRADOR")){
+        if (usuario.getRol().toString().equals("SUPERADMINISTRADOR")) {
             response = restTemplate.exchange(url, HttpMethod.GET, request, EmpleadoEntity[].class);
-        }else{
+        } else {
             url = urlBase + "/enterprise/" + usuario.getEmpresa().getId();
             response = restTemplate.exchange(url, HttpMethod.GET, request, EmpleadoEntity[].class);
         }
@@ -61,7 +61,7 @@ public class EmpleadoServiceView {
 
     public Page<EmpleadoEntity> listarPagina(Pageable pageable, EmpleadoEntity usuario) {
 //        if (empleados == null) {
-            listar(usuario);
+        listar(usuario);
 //        }
         int tamañoPagina = pageable.getPageSize();
         int paginaActual = pageable.getPageNumber();
@@ -123,7 +123,7 @@ public class EmpleadoServiceView {
 
     public List<String> listarRoles() {
         List<String> roles = new ArrayList<>();
-        for (Rol r : Rol.values()){
+        for (Rol r : Rol.values()) {
             roles.add(r.toString());
         }
         return roles;
@@ -135,11 +135,10 @@ public class EmpleadoServiceView {
         HttpHeaders headers = obtenerHeader(usuario);
         HttpEntity<String> request = new HttpEntity<String>(headers);
 
-        try{
+        try {
             ResponseEntity<Boolean> response = restTemplate.exchange(url, HttpMethod.DELETE, request, Boolean.class);
             return response.getBody();
-        }
-        catch(Exception ex){
+        } catch (Exception ex) {
             return false;
         }
     }
