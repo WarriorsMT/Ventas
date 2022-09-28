@@ -99,15 +99,15 @@ public class MovimientoDineroEntity {
         this.fecha = fecha;
     }
 
-    @Override
-    public String toString() {
-        return "{" +
-                "\"id\" : " + id + ", " +
-                "\"concepto\" : \"" + concepto + "\", " +
-                "\"monto\" : \"" + monto + "\", " +
-                "\"usuario\" : " + usuario + ", " +
-                "\"empresa\" : " + empresa + ", " +
-                "\"fecha\" : \"" + fecha + "\"" +
-                '}';
-    }
+//    @Override
+//    public String toString() {
+//        return "{" +
+//                "\"id\" : " + id + ", " +
+//                "\"concepto\" : \"" + concepto + "\", " +
+//                "\"monto\" : \"" + monto + "\", " +
+//                "\"usuario\" : " + usuario + ", " +
+//                "\"empresa\" : " + empresa + ", " +
+//                "\"fecha\" : \"" + fecha + "\"" +
+//                '}';
+//    }
 }

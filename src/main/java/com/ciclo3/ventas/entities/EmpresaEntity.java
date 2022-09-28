@@ -1,5 +1,7 @@
 package com.ciclo3.ventas.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -23,9 +25,11 @@ public class EmpresaEntity {
     @Column(name = "nit", length = 100, unique = true, nullable = false)
     private String nit;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "empresa")
     private List<EmpleadoEntity> usuarios;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "empresa")
     private List<MovimientoDineroEntity> transacciones;
 
@@ -96,14 +100,14 @@ public class EmpresaEntity {
         this.transacciones = transacciones;
     }
 
-    @Override
-    public String toString() {
-        return "{" +
-                "\"id\" : " + id + ", " +
-                "\"nombre\" : \"" + nombre + "\", " +
-                "\"direccion\" : \"" + direccion + "\", " +
-                "\"telefono\" : \"" + telefono + "\", " +
-                "\"nit\" : \"" + nit + "\"" +
-                '}';
-    }
+//    @Override
+//    public String toString() {
+//        return "{" +
+//                "\"id\" : " + id + ", " +
+//                "\"nombre\" : \"" + nombre + "\", " +
+//                "\"direccion\" : \"" + direccion + "\", " +
+//                "\"telefono\" : \"" + telefono + "\", " +
+//                "\"nit\" : \"" + nit + "\"" +
+//                '}';
+//    }
 }
