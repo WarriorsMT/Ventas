@@ -24,7 +24,7 @@ public class EmpleadoEntity {
                             "ON DELETE RESTRICT"
             )
     )
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne (fetch = FetchType.EAGER)
     private EmpresaEntity empresa;
 
     @Column(name = "rol", length = 13, nullable = false)
