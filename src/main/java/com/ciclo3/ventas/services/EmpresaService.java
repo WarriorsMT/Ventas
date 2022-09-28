@@ -13,7 +13,8 @@ public class EmpresaService {
     EmpresaRepository repositorio;
 
     public List<EmpresaEntity> listar() {
-        return this.repositorio.findAll();
+//        return this.repositorio.findAll();
+        return this.repositorio.findAllByOrderByNombreAsc();
     }
 
     public EmpresaEntity buscarPorId(long id) {
@@ -44,8 +45,13 @@ public class EmpresaService {
         return repositorio.save(empresa);
     }
 
-    public void borrar(long id) {
-        repositorio.deleteById(id);
+    public boolean borrar(long id) {
+        try {
+            repositorio.deleteById(id);
+            return true;
+        }catch (Exception ex){
+            return false;
+        }
     }
 
     public EmpresaEntity editar(EmpresaEntity nuevoEmpresa, long id) {
