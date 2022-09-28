@@ -1,0 +1,23 @@
+<nav th:fragment="modulo-barra-principal" class="navbar navbar-expand-md bg-dark navbar-dark"
+     xmlns:th="http://www.thymeleaf.org">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <span>
+                <button class="fas fa-bars btn-primary btn-lg" type="button" id="barralateralColapsar"
+                        th:onclick="barraLateralColapsar();">
+                </button>
+            </span>
+            <a class="text-light fas fa-home fa-2x" th:href="@{/}"></a>
+            <b class="text-light" th:text="#{Presentacion.Titulo}"></b>
+        </div>
+        <div th:if="${session.usuario==null}">
+            <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#login">
+                Login
+            </button>
+        </div>
+        <div th:if="${session.usuario!=null}">
+            <span class="text-light" th:text="${session.usuario.correo}"></span>
+            <a href="/logout" class="btn btn-primary btn-sm">Logout</a>
+        </div>
+    </div>
+</nav>

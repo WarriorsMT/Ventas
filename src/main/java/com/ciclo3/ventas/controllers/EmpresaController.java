@@ -38,7 +38,7 @@ public class EmpresaController {
             return (JSONObject) JSONValue.parse(
                     "{ " +
                             "\"ok\" : " + false + ", " +
-                            "\"msg\" : \"No existe la empresa\" " +
+                            "\"msg\" : \"No existe la empresa\", " +
                             "}");
         }
     }
@@ -49,13 +49,13 @@ public class EmpresaController {
             return (JSONObject) JSONValue.parse(
                     "{ " +
                             "\"ok\" : " + false + ", " +
-                            "\"msg\" : \"Ya existe el nombre\" " +
+                            "\"msg\" : \"Ya existe el nombre\", " +
                             "}");
         } else if (this.servicio.buscarPorNit(empresa.getNit()) != null) {
             return (JSONObject) JSONValue.parse(
                     "{ " +
                             "\"ok\" : " + false + ", " +
-                            "\"msg\" : \"Ya existe el nit\" " +
+                            "\"msg\" : \"Ya existe el nit\", " +
                             "}");
         }
         try {
@@ -69,7 +69,7 @@ public class EmpresaController {
             return (JSONObject) JSONValue.parse(
                     "{ " +
                             "\"ok\" : " + false + ", " +
-                            "\"msg\" : \"Revisar los datos\" " +
+                            "\"msg\" : \"Revisar los datos\", " +
                             "}");
         }
     }
@@ -80,7 +80,7 @@ public class EmpresaController {
             return (JSONObject) JSONValue.parse(
                     "{ " +
                             "\"ok\" : " + false + ", " +
-                            "\"msg\" : \"Tiene empleados y no se puede eliminar\" " +
+                            "\"msg\" : \"Tiene empleados y no se puede eliminar\", " +
                             "}");
         }
 
@@ -95,7 +95,7 @@ public class EmpresaController {
             return (JSONObject) JSONValue.parse(
                     "{ " +
                             "\"ok\" : " + false + ", " +
-                            "\"msg\" : \"No existe la empresa\" " +
+                            "\"msg\" : \"No existe la empresa\", " +
                             "}");
         }
     }
@@ -108,13 +108,13 @@ public class EmpresaController {
                 return (JSONObject) JSONValue.parse(
                         "{ " +
                                 "\"ok\" : " + false + ", " +
-                                "\"msg\" : \"Ya existe el nombre\" " +
+                                "\"msg\" : \"Ya existe el nombre\", " +
                                 "}");
             } else if (this.servicio.findByNitEIdNoIgual(id, nuevaEmpresa.getNit()) != null) {
                 return (JSONObject) JSONValue.parse(
                         "{ " +
                                 "\"ok\" : " + false + ", " +
-                                "\"msg\" : \"Ya existe el nit\" " +
+                                "\"msg\" : \"Ya existe el nit\", " +
                                 "}");
             }
             try {
@@ -128,14 +128,14 @@ public class EmpresaController {
                 return (JSONObject) JSONValue.parse(
                         "{ " +
                                 "\"ok\" : " + false + ", " +
-                                "\"msg\" : \"Revisar los datos\" " +
+                                "\"msg\" : \"Revisar los datos\", " +
                                 "}");
             }
         } catch (Exception e) {
             return (JSONObject) JSONValue.parse(
                     "{ " +
                             "\"ok\" : " + false + ", " +
-                            "\"msg\" : \"No existe la empresa\" " +
+                            "\"msg\" : \"No existe la empresa\", " +
                             "}");
         }
     }

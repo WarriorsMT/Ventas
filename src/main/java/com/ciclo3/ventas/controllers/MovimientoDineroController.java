@@ -1,6 +1,8 @@
 package com.ciclo3.ventas.controllers;
 
+import com.ciclo3.ventas.entities.EmpleadoEntity;
 import com.ciclo3.ventas.entities.MovimientoDineroEntity;
+import com.ciclo3.ventas.entities.Rol;
 import com.ciclo3.ventas.services.EmpleadoService;
 import com.ciclo3.ventas.services.EmpresaService;
 import com.ciclo3.ventas.services.MovimientoDineroService;
@@ -41,7 +43,7 @@ public class MovimientoDineroController {
                 return (JSONObject) JSONValue.parse(
                         "{ " +
                                 "\"ok\" : " + false + ", " +
-                                "\"msg\" : \"El movimiento no pertenence a la empresa\" " +
+                                "\"msg\" : \"El movimiento no pertenence a la empresa\", " +
                                 "}");
             }
             return (JSONObject) JSONValue.parse(
@@ -54,7 +56,7 @@ public class MovimientoDineroController {
             return (JSONObject) JSONValue.parse(
                     "{ " +
                             "\"ok\" : " + false + ", " +
-                            "\"msg\" : \"No existe el movimiento\" " +
+                            "\"msg\" : \"No existe el movimiento\", " +
                             "}");
         }
     }
@@ -67,7 +69,7 @@ public class MovimientoDineroController {
             return (JSONObject) JSONValue.parse(
                     "{ " +
                             "\"ok\" : " + false + ", " +
-                            "\"msg\" : \"No existe la empresa\" " +
+                            "\"msg\" : \"No existe la empresa\", " +
                             "}");
         }
 
@@ -76,14 +78,14 @@ public class MovimientoDineroController {
                 return (JSONObject) JSONValue.parse(
                         "{ " +
                                 "\"ok\" : " + false + ", " +
-                                "\"msg\" : \"El usuario no pertenece a la empresa\" " +
+                                "\"msg\" : \"El usuario no pertenence a la empresa\", " +
                                 "}");
             }
         } catch (Exception e) {
             return (JSONObject) JSONValue.parse(
                     "{ " +
                             "\"ok\" : " + false + ", " +
-                            "\"msg\" : \"No existe el usuario\" " +
+                            "\"msg\" : \"No existe el usuario\", " +
                             "}");
         }
 
@@ -100,7 +102,7 @@ public class MovimientoDineroController {
             return (JSONObject) JSONValue.parse(
                     "{ " +
                             "\"ok\" : " + false + ", " +
-                            "\"msg\" : \"Revisar los datos\" " +
+                            "\"msg\" : \"Revisar los datos\", " +
                             "}");
         }
     }
@@ -113,7 +115,7 @@ public class MovimientoDineroController {
             return (JSONObject) JSONValue.parse(
                     "{ " +
                             "\"ok\" : " + false + ", " +
-                            "\"msg\" : \"No existe la empresa\" " +
+                            "\"msg\" : \"No existe la empresa\", " +
                             "}");
         }
 
@@ -122,7 +124,7 @@ public class MovimientoDineroController {
                 return (JSONObject) JSONValue.parse(
                         "{ " +
                                 "\"ok\" : " + false + ", " +
-                                "\"msg\" : \"El movimiento no pertenece a la empresa\" " +
+                                "\"msg\" : \"El movimiento no pertenence a la empresa\", " +
                                 "}");
             }
 
@@ -136,13 +138,13 @@ public class MovimientoDineroController {
             return (JSONObject) JSONValue.parse(
                     "{ " +
                             "\"ok\" : " + false + ", " +
-                            "\"msg\" : \"No existe el movimiento\" " +
+                            "\"msg\" : \"No existe el movimiento\", " +
                             "}");
         }
     }
 
     @RequestMapping(value = "/movements/{idm}", method = RequestMethod.PATCH)
-    public JSONObject editar(@RequestBody MovimientoDineroEntity nuevoMovimiento,
+    public JSONObject editar(@RequestBody MovimientoDineroEntity nuevoMovimientoo,
                              @PathVariable long id, @PathVariable long idm) {
         try {
             this.empresaServicio.buscarPorId(id);
@@ -150,57 +152,49 @@ public class MovimientoDineroController {
             return (JSONObject) JSONValue.parse(
                     "{ " +
                             "\"ok\" : " + false + ", " +
-                            "\"msg\" : \"No existe la empresa\" " +
+                            "\"msg\" : \"No existe la empresa\", " +
                             "}");
         }
 
         try {
-            if(this.empleadoServicio.buscarPorId(nuevoMovimiento.getUsuario().getId()).getEmpresa().getId()!=id){
+            if(this.empleadoServicio.buscarPorId(nuevoMovimientoo.getUsuario().getId()).getEmpresa().getId()!=id){
                 return (JSONObject) JSONValue.parse(
                         "{ " +
                                 "\"ok\" : " + false + ", " +
-                                "\"msg\" : \"El usuario no pertenece a la empresa\" " +
+                                "\"msg\" : \"El usuario no pertenence a la empresa\", " +
                                 "}");
             }
         } catch (Exception e) {
             return (JSONObject) JSONValue.parse(
                     "{ " +
                             "\"ok\" : " + false + ", " +
-                            "\"msg\" : \"No existe el usuario\" " +
+                            "\"msg\" : \"No existe el usuario\", " +
                             "}");
         }
 
         try {
             this.servicio.buscarPorId(idm);
-            try {
-                nuevoMovimiento.getEmpresa().setId(id);
-            } catch (Exception e) {
-                return (JSONObject) JSONValue.parse(
-                        "{ " +
-                                "\"ok\" : " + false + ", " +
-                                "\"msg\" : \"Revisar los datos de empresa\" " +
-                                "}");
-            }
-            nuevoMovimiento.setFecha(new Date(System.currentTimeMillis()));
+            nuevoMovimientoo.getEmpresa().setId(id);
+            nuevoMovimientoo.setFecha(new Date(System.currentTimeMillis()));
             try {
                 return (JSONObject) JSONValue.parse(
                         "{ " +
                                 "\"ok\" : " + true + ", " +
                                 "\"msg\" : \"Actualizado\", " +
-                                "\"result\" : " + this.servicio.editar(nuevoMovimiento, idm) +
+                                "\"result\" : " + this.servicio.editar(nuevoMovimientoo, idm) +
                                 "}");
             } catch (Exception e) {
                 return (JSONObject) JSONValue.parse(
                         "{ " +
                                 "\"ok\" : " + false + ", " +
-                                "\"msg\" : \"Revisar los datos\" " +
+                                "\"msg\" : \"Revisar los datos\", " +
                                 "}");
             }
         } catch (Exception e) {
             return (JSONObject) JSONValue.parse(
                     "{ " +
                             "\"ok\" : " + false + ", " +
-                            "\"msg\" : \"No existe el movimiento\" " +
+                            "\"msg\" : \"No existe el movimiento\", " +
                             "}");
         }
     }
