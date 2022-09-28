@@ -1,14 +1,23 @@
 package com.ciclo3.ventas.controllers;
 
 import com.ciclo3.ventas.entities.EmpleadoEntity;
+import com.ciclo3.ventas.entities.RespuestaEntity;
+import com.ciclo3.ventas.security.FiltroSecurity;
 import com.ciclo3.ventas.services.EmpleadoService;
 import com.ciclo3.ventas.services.EmpresaService;
-import org.json.simple.JSONObject;
-import org.json.simple.JSONValue;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/users")
@@ -20,160 +29,130 @@ public class EmpleadoController {
     EmpresaService empresaServicio;
 
     @RequestMapping(method = RequestMethod.GET)
-    public JSONObject listar() {
-        return (JSONObject) JSONValue.parse(
-                "{ " +
-                        "\"ok\" : " + true + ", " +
-                        "\"msg\" : \"Listado\", " +
-                        "\"result\" : " + (List< EmpleadoEntity>) this.servicio.listar() +
-                        "}");
+    public List<EmpleadoEntity> listar() {
+        return this.servicio.listar();
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public JSONObject buscarPorId(@PathVariable long id) {
-        try {
-            return (JSONObject) JSONValue.parse(
-                    "{ " +
-                            "\"ok\" : " + true + ", " +
-                            "\"msg\" : \"Buscado\", " +
-                            "\"result\" : " + this.servicio.buscarPorId(id) +
-                            "}");
-        } catch (Exception e) {
-            return (JSONObject) JSONValue.parse(
-                    "{ " +
-                            "\"ok\" : " + false + ", " +
-                            "\"msg\" : \"No existe el empleado\", " +
-                            "}");
-        }
+    public EmpleadoEntity buscarPorId(@PathVariable long id) {
+        return this.servicio.buscarPorId(id);
     }
 
     @RequestMapping(value = "/enterprise/{id_empresa}", method = RequestMethod.GET)
-    public JSONObject buscarPorEmpresa(@PathVariable long id_empresa) {
-        try {
-            this.empresaServicio.buscarPorId(id_empresa);
-        } catch (Exception e) {
-            return (JSONObject) JSONValue.parse(
-                    "{ " +
-                            "\"ok\" : " + false + ", " +
-                            "\"msg\" : \"No existe la empresa\", " +
-                            "}");
-        }
-        try {
-            return (JSONObject) JSONValue.parse(
-                    "{ " +
-                            "\"ok\" : " + true + ", " +
-                            "\"msg\" : \"Buscado\", " +
-                            "\"result\" : " + this.servicio.buscarPorEmpresa(id_empresa) +
-                            "}");
-        } catch (Exception e) {
-            return (JSONObject) JSONValue.parse(
-                    "{ " +
-                            "\"ok\" : " + false + ", " +
-                            "\"msg\" : \"No existe la empresa\", " +
-                            "}");
-        }
+    public List<EmpleadoEntity> buscarPorEmpresa(@PathVariable long id_empresa) {
+        return this.servicio.buscarPorEmpresa(id_empresa);
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public JSONObject agregar(@RequestBody EmpleadoEntity empleado) {
+    public RespuestaEntity agregar(@RequestBody EmpleadoEntity empleado) {
         try {
             this.empresaServicio.buscarPorId(empleado.getEmpresa().getId());
         } catch (Exception e) {
-            return (JSONObject) JSONValue.parse(
-                    "{ " +
-                            "\"ok\" : " + false + ", " +
-                            "\"msg\" : \"No existe la empresa\", " +
-                            "}");
+            return new RespuestaEntity("Agregar Empleado",
+                            "Ya existe la empresa",
+                            false);
         }
         if (this.servicio.buscarPorCorreo(empleado.getCorreo()) != null) {
-            return (JSONObject) JSONValue.parse(
-                    "{ " +
-                            "\"ok\" : " + false + ", " +
-                            "\"msg\" : \"Ya existe el correo\", " +
-                            "}");
+            return new RespuestaEntity("Agregar Empleado",
+                            "Ya existe el correo",
+                            false);
         }
         try {
-            return (JSONObject) JSONValue.parse(
-                    "{ " +
-                            "\"ok\" : " + true + ", " +
-                            "\"msg\" : \"Agregado\", " +
-                            "\"result\" : " + this.servicio.agregar(empleado) +
-                            "}");
+            //empleado.setPassword(this.servicio.generatePassword(""+System.currentTimeMillis()));
+            empleado.setPassword(this.servicio.generatePassword(empleado.getCorreo()));
+            return new RespuestaEntity("Agregar Empleado",
+                            this.servicio.agregar(empleado),
+                            true);
         } catch (Exception e) {
-            return (JSONObject) JSONValue.parse(
-                    "{ " +
-                            "\"ok\" : " + false + ", " +
-                            "\"msg\" : \"Revisar los datos\", " +
-                            "}");
+            return new RespuestaEntity("Agregar Empleado",
+                            "Revisar los datos",
+                            false);
         }
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-    public JSONObject borrar(@PathVariable long id) {
-        if (this.servicio.findByIdEnMovimiento(id) != null) {
-            return (JSONObject) JSONValue.parse(
-                    "{ " +
-                            "\"ok\" : " + false + ", " +
-                            "\"msg\" : \"Tiene movimientos y no se puede eliminar\", " +
-                            "}");
-        }
-
-        try {
-            this.servicio.borrar(id);
-            return (JSONObject) JSONValue.parse(
-                    "{ " +
-                            "\"ok\" : " + true + ", " +
-                            "\"msg\" : \"Eliminado\" " +
-                            "}");
-        } catch (Exception e) {
-            return (JSONObject) JSONValue.parse(
-                    "{ " +
-                            "\"ok\" : " + false + ", " +
-                            "\"msg\" : \"No existe el empleado\", " +
-                            "}");
-        }
+    public boolean borrar(@PathVariable long id) {
+        return this.servicio.borrar(id);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PATCH)
-    public JSONObject editar(@RequestBody EmpleadoEntity nuevaEmpleado, @PathVariable long id) {
+    public RespuestaEntity editar(@RequestBody EmpleadoEntity nuevaEmpleado, @PathVariable long id) {
         try {
             this.empresaServicio.buscarPorId(nuevaEmpleado.getEmpresa().getId());
         } catch (Exception e) {
-            return (JSONObject) JSONValue.parse(
-                    "{ " +
-                            "\"ok\" : " + false + ", " +
-                            "\"msg\" : \"No existe la empresa\", " +
-                            "}");
+            return new RespuestaEntity("Editar Empleado",
+                            "No existe la empresa",
+                            false);
         }
         try {
             this.servicio.buscarPorId(id);
             if (this.servicio.findByCorreoEIdNoIgual(id, nuevaEmpleado.getCorreo()) != null) {
-                return (JSONObject) JSONValue.parse(
-                        "{ " +
-                                "\"ok\" : " + false + ", " +
-                                "\"msg\" : \"Ya existe el correo\", " +
-                                "}");
+                return new RespuestaEntity("Editar Empleado",
+                                "Ya existe el correo",
+                                false);
             }
             try {
-                return (JSONObject) JSONValue.parse(
-                        "{ " +
-                                "\"ok\" : " + true + ", " +
-                                "\"msg\" : \"Actualizado\", " +
-                                "\"result\" : " + this.servicio.editar(nuevaEmpleado, id) +
-                                "}");
+                return new RespuestaEntity("Editar Empleado",
+                                this.servicio.editar(nuevaEmpleado, id),
+                                true);
             } catch (Exception e) {
-                return (JSONObject) JSONValue.parse(
-                        "{ " +
-                                "\"ok\" : " + false + ", " +
-                                "\"msg\" : \"Revisar los datos\", " +
-                                "}");
+                return new RespuestaEntity("Editar Empresa",
+                                "Revisar los datos",
+                                false);
             }
         } catch (Exception e) {
-            return (JSONObject) JSONValue.parse(
-                    "{ " +
-                            "\"ok\" : " + false + ", " +
-                            "\"msg\" : \"No existe el empleado\", " +
-                            "}");
+            return new RespuestaEntity("Editar Empleado",
+                            "No existe",
+                            false);
         }
     }
+
+    @RequestMapping(value = "/password/{id}", method = RequestMethod.PATCH)
+    public ResponseEntity<RespuestaEntity> savePassword(@RequestBody EmpleadoEntity empleado, @PathVariable long id) {
+        if (this.servicio.savePassword(empleado, id) != 0) {
+            return new ResponseEntity<>(
+                    new RespuestaEntity("Editar Empleado",
+                            "Contraseña cambiada",
+                            true),
+                    HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(
+                    new RespuestaEntity("Editar Empleado",
+                            "No existe",
+                            false),
+                    HttpStatus.OK);
+        }
+    }
+
+    @GetMapping("/login")
+    public EmpleadoEntity login(@RequestParam("usuario") String correo, @RequestParam("clave") String clave) {
+        EmpleadoEntity usuario = this.servicio.Login(correo, clave);
+        if (usuario != null) {
+            usuario.setToken(generarToken(correo, usuario.getRol().toString()));
+            return usuario;
+        }
+        return null;
+    }
+
+    private String generarToken(String correo, String rol) {
+        List<GrantedAuthority> grantedAuthorities = AuthorityUtils
+                .commaSeparatedStringToAuthorityList(rol);
+
+        String token = Jwts
+                .builder()
+                .setId("MisionTIC - Ciclo3")
+                .setSubject(correo)
+                .claim("authorities",
+                        grantedAuthorities.stream()
+                                .map(GrantedAuthority::getAuthority)
+                                .collect(Collectors.toList()))
+                .setIssuedAt(new Date(System.currentTimeMillis()))
+                .setExpiration(new Date(System.currentTimeMillis() + 3600000))
+                .signWith(SignatureAlgorithm.HS512,
+                        FiltroSecurity.SECRETO.getBytes())
+                .compact();
+
+        return "Bearer " + token;
+    }
+
 }

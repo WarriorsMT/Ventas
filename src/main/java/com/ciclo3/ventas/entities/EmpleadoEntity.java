@@ -1,5 +1,8 @@
 package com.ciclo3.ventas.entities;
 
+import com.ciclo3.ventas.util.Rol;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -24,15 +27,22 @@ public class EmpleadoEntity {
                             "ON DELETE RESTRICT"
             )
     )
-    @ManyToOne (fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER)
     private EmpresaEntity empresa;
 
-    @Column(name = "rol", length = 13, nullable = false)
+    @Column(name = "rol", length = 18, nullable = false)
     @Enumerated(value = EnumType.STRING)
     private Rol rol;
 
+    @Column(name = "password", columnDefinition="varchar(100) not null default crypt(now()::varchar, gen_salt('bf'))")
+    private String password;
+
+    @JsonIgnore
     @OneToMany(mappedBy = "usuario")
     private List<MovimientoDineroEntity> transacciones;
+
+    @Transient
+    private String token;
 
     public EmpleadoEntity() {
     }
@@ -84,6 +94,14 @@ public class EmpleadoEntity {
         this.rol = rol;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     public List<MovimientoDineroEntity> getTransacciones() {
         return transacciones;
     }
@@ -92,15 +110,21 @@ public class EmpleadoEntity {
         this.transacciones = transacciones;
     }
 
-    @Override
-    public String toString() {
-        return "{" +
-                "\"id\" : " + id + ", " +
-                "\"nombre\" : \"" + nombre + "\", " +
-                "\"correo\" : \"" + correo + "\", " +
-                "\"empresa\" : " + empresa + ", " +
-                "\"rol\" : \"" + rol + "\"" +
-                '}';
+    public String getToken() {
+        return token;
     }
 
+    public void setToken(String token) {
+        this.token = token;
+    }
+//    @Override
+//    public String toString() {
+//        return "{" +
+//                "\"id\" : " + id + ", " +
+//                "\"nombre\" : \"" + nombre + "\", " +
+//                "\"correo\" : \"" + correo + "\", " +
+//                "\"empresa\" : " + empresa + ", " +
+//                "\"rol\" : \"" + rol + "\"" +
+//                '}';
+//    }
 }

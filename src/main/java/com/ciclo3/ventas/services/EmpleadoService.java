@@ -1,6 +1,5 @@
 package com.ciclo3.ventas.services;
 
-
 import com.ciclo3.ventas.entities.EmpleadoEntity;
 import com.ciclo3.ventas.repositories.EmpleadoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +13,8 @@ public class EmpleadoService {
     EmpleadoRepository repositorio;
 
     public List<EmpleadoEntity> listar() {
-        return this.repositorio.findAll();
+//        return this.repositorio.findAll();
+        return this.repositorio.findAllByOrderByNombreAsc();
     }
 
     public EmpleadoEntity buscarPorId(long id) {
@@ -41,12 +41,17 @@ public class EmpleadoService {
         return repositorio.save(empleado);
     }
 
-    public void borrar(long id) {
-        repositorio.deleteById(id);
+    public boolean borrar(long id) {
+        try {
+            repositorio.deleteById(id);
+            return true;
+        }catch (Exception ex){
+            return false;
+        }
     }
 
     public EmpleadoEntity editar(EmpleadoEntity nuevoEmpleado, long id) {
-        return  repositorio.findById(id)
+        return repositorio.findById(id)
                 .map(empleado -> {
                     empleado.setNombre(nuevoEmpleado.getNombre());
                     empleado.setCorreo(nuevoEmpleado.getCorreo());
@@ -54,5 +59,17 @@ public class EmpleadoService {
                     empleado.setRol(nuevoEmpleado.getRol());
                     return repositorio.save(empleado);
                 }).get();
+    }
+
+    public int savePassword(EmpleadoEntity empleado, long id) {
+        return repositorio.savePassword(id, empleado.getPassword());
+    }
+
+    public String generatePassword(String password) {
+        return repositorio.generatePassword(password);
+    }
+
+    public EmpleadoEntity Login(String correo, String clave) {
+        return repositorio.Login(correo, clave);
     }
 }
