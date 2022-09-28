@@ -19,13 +19,15 @@ import java.util.stream.IntStream;
 
 @Service
 public class EmpresaServiceView {
-    private String urlBase = "http://localhost:8080/enterprises";
+    //    private String urlBase = "http://localhost:8080/enterprises";
+    private String urlBase = "https://warriorsmisiontic.herokuapp.com/enterprises";
 
     private List<EmpresaEntity> empresas;
 
-    public List<EmpresaEntity> getLista(){
+    public List<EmpresaEntity> getLista() {
         return empresas;
     }
+
     private HttpHeaders obtenerHeader(EmpleadoEntity usuario) {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
@@ -45,7 +47,7 @@ public class EmpresaServiceView {
 
     public Page<EmpresaEntity> listarPagina(Pageable pageable, EmpleadoEntity usuario) {
 //        if (empresas == null) {
-            listar(usuario);
+        listar(usuario);
 //        }
         int tamañoPagina = pageable.getPageSize();
         int paginaActual = pageable.getPageNumber();
@@ -111,11 +113,10 @@ public class EmpresaServiceView {
         HttpHeaders headers = obtenerHeader(usuario);
         HttpEntity<String> request = new HttpEntity<String>(headers);
 
-        try{
+        try {
             ResponseEntity<Boolean> response = restTemplate.exchange(url, HttpMethod.DELETE, request, Boolean.class);
             return response.getBody();
-        }
-        catch(Exception ex){
+        } catch (Exception ex) {
             return false;
         }
     }
