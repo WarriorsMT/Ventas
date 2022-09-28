@@ -1,0 +1,23 @@
+<nav id="barralateral" th:fragment="modulo-menu-lateral" xmlns:th="http://www.thymeleaf.org">
+    <div class="sidebar-header">
+        <h4 th:text="#{Presentacion.TituloMenu}"></h4>
+    </div>
+
+    <ul class="list-unstyled components">
+        <li class="active" th:each="opcionMenu: ${menu}">
+            <div th:if="${opcionMenu.getHijos()!=null}" th:each="rol: ${opcionMenu.getRol()}">
+                <a th:if="${rol.toString()==session.usuario.getRol().toString()}" th:href="'#'+${opcionMenu.getTexto()}" th:text="${opcionMenu.getTexto()}"
+                   data-toggle="collapse" class="dropdown-toggle"></a>
+                <ul class="collapse list-unstyled" th:id="${opcionMenu.getTexto()}">
+                    <li th:each="opcionSubmenu: ${opcionMenu.getHijos()}">
+                        <a th:href="${opcionSubmenu.getUrl()}" th:text="${opcionSubmenu.getTexto()}"></a>
+                    </li>
+                </ul>
+            </div>
+            <div th:unless="${opcionMenu.getHijos()!=null}" th:each="rol: ${opcionMenu.getRol()}">
+                <a th:if="${rol.toString()==session.usuario.getRol().toString()}" th:href="${opcionMenu.getUrl()}"
+                   th:text="${opcionMenu.getTexto()}"></a>
+            </div>
+        </li>
+    </ul>
+</nav>
