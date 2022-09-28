@@ -20,7 +20,13 @@ public class EmpleadoEntity {
     @Column(name = "correo", length = 100, unique = true, nullable = false)
     private String correo;
 
-    @JoinColumn(name = "id_empresa", nullable = false)
+    @JoinColumn(name = "id_empresa", nullable = false,
+            foreignKey = @ForeignKey(
+                    foreignKeyDefinition = "FOREIGN KEY (id_empresa) REFERENCES empresa(id) " +
+                            "ON UPDATE CASCADE " +
+                            "ON DELETE RESTRICT"
+            )
+    )
     @ManyToOne(fetch = FetchType.EAGER)
     private EmpresaEntity empresa;
 
@@ -28,7 +34,8 @@ public class EmpleadoEntity {
     @Enumerated(value = EnumType.STRING)
     private Rol rol;
 
-    @Column(name = "password", columnDefinition="varchar(100) not null default crypt(now()::varchar, gen_salt('bf'))")
+    //@Column(name = "password", columnDefinition="varchar(100) not null default crypt(now()::varchar, gen_salt('bf'))")
+    @Column(name = "password", length = 100, nullable = false)
     private String password;
 
     @JsonIgnore

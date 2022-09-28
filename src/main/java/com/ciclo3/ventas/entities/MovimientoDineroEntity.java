@@ -17,11 +17,23 @@ public class MovimientoDineroEntity {
     @Column(name = "monto", nullable = false)
     private double monto;
 
-    @JoinColumn(name = "id_empleado", nullable = false)
+    @JoinColumn(name = "id_empleado", nullable = false,
+            foreignKey = @ForeignKey(
+                    foreignKeyDefinition = "FOREIGN KEY (id_empleado) REFERENCES empleado(id) " +
+                            "ON UPDATE CASCADE " +
+                            "ON DELETE RESTRICT"
+            )
+    )
     @ManyToOne(fetch = FetchType.EAGER)
     private EmpleadoEntity usuario;
 
-    @JoinColumn(name = "id_empresa", nullable = false)
+    @JoinColumn(name = "id_empresa", nullable = false,
+            foreignKey = @ForeignKey(
+                    foreignKeyDefinition = "FOREIGN KEY (id_empresa) REFERENCES empresa(id) " +
+                            "ON UPDATE CASCADE " +
+                            "ON DELETE RESTRICT"
+            )
+    )
     @ManyToOne(fetch = FetchType.EAGER)
     private EmpresaEntity empresa;
 
