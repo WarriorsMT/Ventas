@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="#{Presentacion.Titulo}"></title>
+
+    <script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+    <script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
+    <script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+    <script th:src="@{/js/acciones.js}"></script>
+
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" type="text/css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css"
+          type="text/css"/>
+
+    <link rel="stylesheet" th:href="@{/css/estilos.css}"/>
+</head>
+<body>
+<div th:insert="login :: modulo-login"></div>
+<header>
+    <div th:insert="barraprincipal :: modulo-barra-principal"></div>
+</header>
+<div class="wrapper">
+    <div th:if="${session.usuario!=null}" th:insert="menulateral :: modulo-menu-lateral"></div>
+    <div id="contenido">
+        <div th:if="${mensajeerror}">
+            <div class="error" th:text="${mensajeerror}"></div>
+        </div>
+        <div th:replace="${plantilla} :: 'modulo-'+${plantilla}"/>
+    </div>
+</div>
+<footer>
+
+</footer>
+</body>
+</html>

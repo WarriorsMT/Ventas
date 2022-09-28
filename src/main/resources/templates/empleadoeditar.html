@@ -1,0 +1,62 @@
+<nav id="empleadoeditar" th:fragment="modulo-empleadoeditar" class="modal fade" role="dialog"
+     xmlns:th="http://www.thymeleaf.org">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Empleado</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form th:action="@{/empleados/guardar(id=${empleadoeditado.id})}" th:object="${empleadoeditado}"
+                  method="POST" autocomplete="off">
+                <div class="modal-body">
+                    <div class="form-group" style="width:100%">
+                        <label th:text="#{Presentacion.Empleado.TituloCampo2}"/>
+                        <input class="form-control" type="text" th:field="*{nombre}" name="nombre" id="nombre">
+                    </div>
+                    <div class="form-group" style="width:100%">
+                        <label th:text="#{Presentacion.Empleado.TituloCampo3}"/>
+                        <input class="form-control" type="email" th:field="*{correo}" name="correo" id="correo">
+                    </div>
+                    <div class="form-group" style="width:100%">
+                        <label th:text="#{Presentacion.Empleado.TituloCampo4}"/>
+                        <span th:if="${usuario.getRol().toString()=='SUPERADMINISTRADOR'}">
+              <select class="form-control" th:field="*{empresa}" name="empresa" id="empresa">
+                <option th:each="empresa : ${listaempresas}" th:text="${empresa.nombre}" th:value="${empresa.id}">
+                </option>
+              </select>
+            </span>
+                        <span th:if="${usuario.getRol().toString()=='ADMINISTRADOR'}">
+              <select class="form-control" th:field="*{empresa}" name="empresa" id="empresa">
+                <option th:each="empresa : ${listaempresas}" th:if="${usuario.getEmpresa().getId()==empresa.id}"
+                        th:text="${empresa.nombre}" th:value="${empresa.id}">
+                </option>
+              </select>
+            </span>
+                    </div>
+                    <div class="form-group" style="width:100%">
+                        <label th:text="#{Presentacion.Empleado.TituloCampo5}"/>
+                        <span th:if="${usuario.getRol().toString()=='SUPERADMINISTRADOR'}">
+              <select class="form-control" th:field="*{rol}" name="rol" id="rol">
+                <option th:each="rol : ${listaroles}" th:text="${rol}" th:value="${rol}">
+                </option>
+              </select>
+            </span>
+                        <span th:if="${usuario.getRol().toString()=='ADMINISTRADOR'}">
+              <select class="form-control" th:field="*{rol}" name="rol" id="rol">
+                <option th:each="rol : ${listaroles}" th:if="${rol=='OPERATIVO'}" th:text="${rol}" th:value="${rol}">
+                </option>
+              </select>
+            </span>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn btn-primary">Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</nav>

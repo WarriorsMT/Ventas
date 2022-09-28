@@ -42,7 +42,7 @@ public class EmpleadoController {
             return (JSONObject) JSONValue.parse(
                     "{ " +
                             "\"ok\" : " + false + ", " +
-                            "\"msg\" : \"No existe el empleado\" " +
+                            "\"msg\" : \"No existe el empleado\", " +
                             "}");
         }
     }
@@ -55,7 +55,7 @@ public class EmpleadoController {
             return (JSONObject) JSONValue.parse(
                     "{ " +
                             "\"ok\" : " + false + ", " +
-                            "\"msg\" : \"No existe la empresa\" " +
+                            "\"msg\" : \"No existe la empresa\", " +
                             "}");
         }
         try {
@@ -69,7 +69,7 @@ public class EmpleadoController {
             return (JSONObject) JSONValue.parse(
                     "{ " +
                             "\"ok\" : " + false + ", " +
-                            "\"msg\" : \"No existe la empresa\" " +
+                            "\"msg\" : \"No existe la empresa\", " +
                             "}");
         }
     }
@@ -82,14 +82,14 @@ public class EmpleadoController {
             return (JSONObject) JSONValue.parse(
                     "{ " +
                             "\"ok\" : " + false + ", " +
-                            "\"msg\" : \"No existe la empresa\" " +
+                            "\"msg\" : \"No existe la empresa\", " +
                             "}");
         }
         if (this.servicio.buscarPorCorreo(empleado.getCorreo()) != null) {
             return (JSONObject) JSONValue.parse(
                     "{ " +
                             "\"ok\" : " + false + ", " +
-                            "\"msg\" : \"Ya existe el correo\" " +
+                            "\"msg\" : \"Ya existe el correo\", " +
                             "}");
         }
         try {
@@ -103,7 +103,7 @@ public class EmpleadoController {
             return (JSONObject) JSONValue.parse(
                     "{ " +
                             "\"ok\" : " + false + ", " +
-                            "\"msg\" : \"Revisar los datos\" " +
+                            "\"msg\" : \"Revisar los datos\", " +
                             "}");
         }
     }
@@ -114,7 +114,7 @@ public class EmpleadoController {
             return (JSONObject) JSONValue.parse(
                     "{ " +
                             "\"ok\" : " + false + ", " +
-                            "\"msg\" : \"Tiene movimientos y no se puede eliminar\" " +
+                            "\"msg\" : \"Tiene movimientos y no se puede eliminar\", " +
                             "}");
         }
 
@@ -129,7 +129,7 @@ public class EmpleadoController {
             return (JSONObject) JSONValue.parse(
                     "{ " +
                             "\"ok\" : " + false + ", " +
-                            "\"msg\" : \"No existe el empleado\" " +
+                            "\"msg\" : \"No existe el empleado\", " +
                             "}");
         }
     }
@@ -142,7 +142,7 @@ public class EmpleadoController {
             return (JSONObject) JSONValue.parse(
                     "{ " +
                             "\"ok\" : " + false + ", " +
-                            "\"msg\" : \"No existe la empresa\" " +
+                            "\"msg\" : \"No existe la empresa\", " +
                             "}");
         }
         try {
@@ -151,7 +151,7 @@ public class EmpleadoController {
                 return (JSONObject) JSONValue.parse(
                         "{ " +
                                 "\"ok\" : " + false + ", " +
-                                "\"msg\" : \"Ya existe el correo\" " +
+                                "\"msg\" : \"Ya existe el correo\", " +
                                 "}");
             }
             try {
@@ -165,14 +165,14 @@ public class EmpleadoController {
                 return (JSONObject) JSONValue.parse(
                         "{ " +
                                 "\"ok\" : " + false + ", " +
-                                "\"msg\" : \"Revisar los datos\" " +
+                                "\"msg\" : \"Revisar los datos\", " +
                                 "}");
             }
         } catch (Exception e) {
             return (JSONObject) JSONValue.parse(
                     "{ " +
                             "\"ok\" : " + false + ", " +
-                            "\"msg\" : \"No existe el empleado\" " +
+                            "\"msg\" : \"No existe el empleado\", " +
                             "}");
         }
     }
