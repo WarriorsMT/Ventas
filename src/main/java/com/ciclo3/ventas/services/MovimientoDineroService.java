@@ -12,10 +12,6 @@ public class MovimientoDineroService {
     @Autowired
     MovimientoDineroRepository repositorio;
 
-    public List<MovimientoDineroEntity> listar() {
-        return this.repositorio.findAll();
-    }
-
     public List<MovimientoDineroEntity> buscarPorEmpresa(long id_empresa) {
         return this.repositorio.findByEmpresa(id_empresa);
     }
@@ -28,8 +24,13 @@ public class MovimientoDineroService {
         return repositorio.save(movimiento);
     }
 
-    public void borrar(long id) {
-        repositorio.deleteById(id);
+    public boolean borrar(long id) {
+        try {
+            repositorio.deleteById(id);
+            return true;
+        }catch (Exception ex){
+            return false;
+        }
     }
 
     public MovimientoDineroEntity editar(MovimientoDineroEntity nuevoMovimiento, long id) {
@@ -42,5 +43,9 @@ public class MovimientoDineroService {
                     movimiento.setFecha(nuevoMovimiento.getFecha());
                     return repositorio.save(movimiento);
                 }).get();
+    }
+
+    public double totalPorEmpresa(long id_empresa) {
+        return this.repositorio.totalPorEmpresa(id_empresa);
     }
 }
