@@ -34,7 +34,8 @@ public class EmpleadoEntity {
     @Enumerated(value = EnumType.STRING)
     private Rol rol;
 
-    @Column(name = "password", columnDefinition="varchar(100) not null default crypt(now()::varchar, gen_salt('bf'))")
+    //@Column(name = "password", columnDefinition="varchar(100) not null default crypt(now()::varchar, gen_salt('bf'))")
+    @Column(name = "password", length = 100, nullable = false)
     private String password;
 
     @JsonIgnore
